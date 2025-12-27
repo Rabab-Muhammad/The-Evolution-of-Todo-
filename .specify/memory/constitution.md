@@ -1,55 +1,114 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+  SYNC IMPACT REPORT
+  ==================
+  Version change: 0.0.0 → 1.0.0
+
+  Modified principles: N/A (initial constitution)
+
+  Added sections:
+    - Core Principles (4 principles)
+    - Success Criteria
+    - Development Workflow
+    - Governance
+
+  Removed sections: N/A (initial constitution)
+
+  Templates requiring updates:
+    - .specify/templates/plan-template.md: ✅ Compatible (Constitution Check section aligns)
+    - .specify/templates/spec-template.md: ✅ Compatible (requirements/scenarios align)
+    - .specify/templates/tasks-template.md: ✅ Compatible (task structure supports principles)
+
+  Follow-up TODOs: None
+-->
+
+# Evolution of Todo – Phase I Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Spec-Driven Development
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+All features MUST be defined via specifications before generating code using Claude Code.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+- No manual coding is permitted; all implementation code MUST be generated from specifications
+- Each feature requires a complete spec before implementation begins
+- Specifications serve as the single source of truth for feature behavior
+- Changes to behavior MUST first be reflected in updated specifications
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+**Rationale**: Ensures traceability, consistency, and that all code derives from explicit, documented requirements.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### II. Correctness
 
-### [PRINCIPLE_6_NAME]
+Task operations (Add, Delete, Update, View, Mark Complete) MUST behave exactly as specified.
 
+- Each operation MUST produce deterministic, predictable results
+- Edge cases MUST be explicitly handled per specification
+- Invalid inputs MUST be rejected with clear error messages
+- State mutations MUST be atomic and consistent
 
-[PRINCIPLE__DESCRIPTION]
+**Rationale**: A todo application's value depends entirely on reliable task management; incorrect behavior renders the system unusable.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### III. Simplicity & Clarity
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+Console interactions MUST be intuitive and easy to follow for end-users.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- Menu options MUST use clear, action-oriented labels
+- User prompts MUST indicate expected input format
+- Feedback messages MUST confirm actions or explain failures
+- Navigation MUST require minimal steps for common operations
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: An in-memory console app targets simplicity; complexity defeats the purpose of this phase.
+
+### IV. Maintainability
+
+Python code MUST follow clean code principles to support future phases.
+
+- Code MUST be modular with clear separation of concerns
+- Functions MUST have single responsibilities
+- Naming MUST be descriptive and consistent
+- Dependencies MUST be minimal and explicit
+
+**Rationale**: Phase I establishes the foundation for Phase II and beyond; maintainable code reduces future technical debt.
+
+## Success Criteria
+
+Measurable outcomes that define project completion:
+
+- **SC-001**: All task operations (Add, Delete, Update, View, Mark Complete) execute correctly according to spec
+- **SC-002**: Code is fully generated via Claude Code with no manual edits
+- **SC-003**: Console interface is user-friendly and error-resistant
+- **SC-004**: Project structure is clean, documented, and ready for Phase II
+- **SC-005**: Specs history shows progressive refinement leading to correct output
+
+## Development Workflow
+
+The following workflow MUST be followed for all feature development:
+
+1. **Specify**: Define feature requirements in spec.md before any implementation
+2. **Plan**: Create implementation plan documenting technical approach
+3. **Generate**: Use Claude Code to generate all implementation code
+4. **Validate**: Verify generated code meets specification requirements
+5. **Document**: Record all significant decisions and prompt history
+
+**Prohibited Actions**:
+- Manual code edits outside of generated output
+- Implementation without prior specification
+- Skipping validation against acceptance criteria
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other practices for the Evolution of Todo – Phase I project.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Amendment Process**:
+1. Proposed changes MUST be documented with rationale
+2. Changes MUST be reviewed for impact on existing specifications
+3. Version MUST be incremented according to semantic versioning:
+   - MAJOR: Principle removals or incompatible redefinitions
+   - MINOR: New principles or materially expanded guidance
+   - PATCH: Clarifications, wording, or non-semantic refinements
+
+**Compliance**:
+- All specifications MUST reference applicable principles
+- All PRs/reviews MUST verify compliance with this constitution
+- Complexity additions MUST be justified against Simplicity principle
+
+**Version**: 1.0.0 | **Ratified**: 2025-12-27 | **Last Amended**: 2025-12-27
