@@ -81,3 +81,5 @@ app.include_router(api_router)
 async def root():
     """Redirect to API documentation."""
     return {"message": "Todo API - Visit /docs for documentation"}
+
+
