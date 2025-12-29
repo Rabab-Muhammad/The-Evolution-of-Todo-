@@ -25,10 +25,18 @@ class Settings:
     JWT_EXPIRATION_HOURS: int = 24
 
     # CORS configuration
-    CORS_ORIGINS: list[str] = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ]
+    # Can be overridden via CORS_ORIGINS env var (comma-separated)
+    CORS_ORIGINS: list[str] = []
+
+    def _load_cors_origins(self) -> list[str]:
+        """Load CORS origins from environment or use defaults."""
+        env_origins = os.getenv("CORS_ORIGINS", "")
+        if env_origins:
+            return [origin.strip() for origin in env_origins.split(",")]
+        return [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+        ]
 
     def __init__(self):
         """Validate required settings on initialization."""
@@ -38,6 +46,8 @@ class Settings:
             raise ValueError("BETTER_AUTH_SECRET environment variable is required")
         if len(self.BETTER_AUTH_SECRET) < 32:
             raise ValueError("BETTER_AUTH_SECRET must be at least 32 characters")
+        # Load CORS origins
+        self.CORS_ORIGINS = self._load_cors_origins()
 
 
 @lru_cache
