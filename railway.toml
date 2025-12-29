@@ -1,10 +1,10 @@
-# Railway Configuration
+# Railway Configuration - Backend Service
 # Reference: https://docs.railway.app/reference/config-as-code
 
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "./Dockerfile"
-watchPatterns = ["src/**", "requirements.txt", "Dockerfile"]
+dockerfilePath = "backend/Dockerfile"
+buildContext = "backend"
 
 [deploy]
 healthcheckPath = "/api/health"
