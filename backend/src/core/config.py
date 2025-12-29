@@ -4,6 +4,7 @@ Reference: @specs/002-fullstack-web-app/plan.md Section 9
 """
 
 import os
+import sys
 from functools import lru_cache
 from dotenv import load_dotenv
 
@@ -14,13 +15,8 @@ load_dotenv()
 class Settings:
     """Application settings loaded from environment variables."""
 
-    # Database configuration
-    # Reference: @specs/database/schema.md
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
-
     # JWT configuration
     # Reference: @specs/api/jwt-auth.md
-    BETTER_AUTH_SECRET: str = os.getenv("BETTER_AUTH_SECRET", "")
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION_HOURS: int = 24
 
@@ -39,13 +35,30 @@ class Settings:
         ]
 
     def __init__(self):
-        """Validate required settings on initialization."""
+        """Load and validate required settings on initialization."""
+        # Database configuration
+        # Reference: @specs/database/schema.md
+        self.DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+
+        # JWT secret
+        # Reference: @specs/api/jwt-auth.md
+        self.BETTER_AUTH_SECRET: str = os.getenv("BETTER_AUTH_SECRET", "")
+
+        # Validate required settings
+        errors = []
         if not self.DATABASE_URL:
-            raise ValueError("DATABASE_URL environment variable is required")
+            errors.append("DATABASE_URL environment variable is required")
         if not self.BETTER_AUTH_SECRET:
-            raise ValueError("BETTER_AUTH_SECRET environment variable is required")
-        if len(self.BETTER_AUTH_SECRET) < 32:
-            raise ValueError("BETTER_AUTH_SECRET must be at least 32 characters")
+            errors.append("BETTER_AUTH_SECRET environment variable is required")
+        elif len(self.BETTER_AUTH_SECRET) < 32:
+            errors.append("BETTER_AUTH_SECRET must be at least 32 characters")
+
+        if errors:
+            # Print errors to stderr for Railway logs
+            for error in errors:
+                print(f"Configuration Error: {error}", file=sys.stderr)
+            raise ValueError("; ".join(errors))
+
         # Load CORS origins
         self.CORS_ORIGINS = self._load_cors_origins()
 
